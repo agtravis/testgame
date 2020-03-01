@@ -6,9 +6,19 @@ class Scene2 extends Phaser.Scene {
   }
 
   create() {
-    this.background = this.add.image(0, 0, 'background');
+    //this.background = this.add.image(0, 0, 'background');
+    this.background = this.add.tileSprite(
+      0,
+      0,
+      config.width,
+      config.height,
+      'background'
+    );
     this.background.setOrigin(0, 0);
-
+    this.add.text(20, 20, 'Playing game', {
+      font: '25px Arial',
+      fill: 'yellow'
+    });
     this.ship1 = this.add.image(
       config.width / 2 - 50,
       config.height / 2,
@@ -20,19 +30,25 @@ class Scene2 extends Phaser.Scene {
       config.height / 2,
       'ship3'
     );
+  }
 
-    const ship2 = this.ship2;
-    const ship3 = this.ship3;
+  moveShip(ship, speed) {
+    ship.y += speed;
+    if (ship.y > config.height) {
+      this.resetShipPos(ship);
+    }
+  }
 
-    this.ship1.setScale(2).flipY = true;
-    let interval = setInterval(function() {
-      ship2.angle += 3;
-      ship3.angle -= 3;
-    }, 25);
+  resetShipPos(ship) {
+    ship.y = 0;
+    const randomX = Phaser.Math.Between(0, config.width);
+    ship.x = randomX;
+  }
 
-    this.add.text(20, 20, 'Playing game', {
-      font: '25px Arial',
-      fill: 'yellow'
-    });
+  update() {
+    this.moveShip(this.ship1, 1);
+    this.moveShip(this.ship2, 2);
+    this.moveShip(this.ship3, 3);
+    this.background.tilePositionY -= 0.5;
   }
 }
