@@ -24,4 +24,8 @@ router.get('/game', (req, res) =>
   res.sendFile(path.join(__dirname, '../game.js'))
 );
 
+router.get('/beam', (req, res) =>
+  res.sendFile(path.join(__dirname, '../beam.js'))
+);
+
 module.exports = router;

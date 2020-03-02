@@ -80,6 +80,7 @@ class Scene2 extends Phaser.Scene {
     this.spacebar = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
+    this.projectiles = this.add.group();
   }
 
   moveShip(ship, speed) {
@@ -107,8 +108,16 @@ class Scene2 extends Phaser.Scene {
     this.background.tilePositionY -= 0.5;
     this.movePlayerManager();
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-      console.log('Fire!');
+      this.shootBeam();
     }
+    for (let i = 0; i < this.projectiles.getChildren().length; ++i) {
+      const beam = this.projectiles.getChildren()[i];
+      beam.update();
+    }
+  }
+
+  shootBeam() {
+    const beam = new Beam(this);
   }
 
   movePlayerManager() {
