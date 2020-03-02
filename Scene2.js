@@ -42,6 +42,11 @@ class Scene2 extends Phaser.Scene {
       'ship3'
     );
 
+    this.enemies = this.physics.add.group();
+    this.enemies.add(this.ship1);
+    this.enemies.add(this.ship2);
+    this.enemies.add(this.ship3);
+
     this.powerUps = this.physics.add.group();
 
     const maxObjects = 4;
@@ -81,6 +86,49 @@ class Scene2 extends Phaser.Scene {
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
     this.projectiles = this.add.group();
+
+    this.physics.add.collider(this.projectiles, this.powerUps, function(
+      projectile,
+      powerUp
+    ) {
+      projectile.destroy();
+    });
+    this.physics.add.overlap(
+      this.player,
+      this.powerUps,
+      this.pickPowerUp,
+      null,
+      this
+    );
+    this.physics.add.overlap(
+      this.player,
+      this.enemies,
+      this.hurtPlayer,
+      null,
+      this
+    );
+    this.physics.add.overlap(
+      this.projectiles,
+      this.enemies,
+      this.hitEnemy,
+      null,
+      this
+    );
+  }
+
+  pickPowerUp(player, powerUp) {
+    powerUp.disableBody(true, true);
+  }
+
+  hurtPlayer(player, enemy) {
+    this.resetShipPos(enemy);
+    player.x = config.width / 2 - 8;
+    player.y = config.height - 64;
+  }
+
+  hitEnemy(projectile, enemy) {
+    projectile.destroy();
+    this.resetShipPos(enemy);
   }
 
   moveShip(ship, speed) {
@@ -133,7 +181,6 @@ class Scene2 extends Phaser.Scene {
     } else if (this.cursorKeys.down.isDown) {
       this.player.setVelocityY(gameSettings.playerSpeed);
     } else {
-      // this.player.setVelocityX(0);
       this.player.setVelocityY(0);
     }
   }
