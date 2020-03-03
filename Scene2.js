@@ -6,6 +6,7 @@ class Scene2 extends Phaser.Scene {
   }
 
   create() {
+    this.lives = 3;
     //this.background = this.add.image(0, 0, 'background');
     this.background = this.add.tileSprite(
       0,
@@ -132,15 +133,66 @@ class Scene2 extends Phaser.Scene {
 
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
+    this.lives += 1;
   }
 
   hurtPlayer(player, enemy) {
     this.resetShipPos(enemy);
-    player.x = config.width / 2 - 8;
-    player.y = config.height - 64;
+    if (this.player.alpha < 1) {
+      return;
+    }
+    this.lives -= 1;
+    const explosion = new Explosion(this, player.x, player.y);
+    player.disableBody(true, true);
+    // this.resetPlayer();
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.resetPlayer,
+      callbackScope: this,
+      loop: false
+    });
+  }
+
+  resetPlayer() {
+    if (this.lives > 0) {
+      const x = config.width / 2 - 8;
+      const y = config.height;
+      this.player.enableBody(true, x, y, true, true);
+      this.player.alpha = 0.5;
+      this.startTween();
+    } else {
+      this.scene.start('endGame');
+    }
+  }
+
+  startTween() {
+    const tween = this.tweens.add({
+      targets: this.player,
+      y: config.height - 100,
+      ease: 'Power1',
+      duration: 1500,
+      repeat: 0,
+      onComplete: this.resetTween,
+      callbackScope: this
+    });
+  }
+
+  resetTween() {
+    const tween2 = this.tweens.add({
+      targets: this.player,
+      y: config.height - 32,
+      ease: 'Power1',
+      duration: 1500,
+      repeat: 0,
+      onComplete: function() {
+        this.player.alpha = 1;
+      },
+      callbackScope: this
+    });
   }
 
   hitEnemy(projectile, enemy) {
+    const explosion = new Explosion(this, enemy.x, enemy.y);
     projectile.destroy();
     this.resetShipPos(enemy);
     this.score += 15;
@@ -173,7 +225,9 @@ class Scene2 extends Phaser.Scene {
     this.background.tilePositionY -= 0.5;
     this.movePlayerManager();
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-      this.shootBeam();
+      if (this.player.active) {
+        this.shootBeam();
+      }
     }
     for (let i = 0; i < this.projectiles.getChildren().length; ++i) {
       const beam = this.projectiles.getChildren()[i];

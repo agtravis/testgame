@@ -20,12 +20,20 @@ router.get('/scene2', (req, res) =>
   res.sendFile(path.join(__dirname, '../Scene2.js'))
 );
 
-router.get('/game', (req, res) =>
-  res.sendFile(path.join(__dirname, '../game.js'))
+router.get('/scene3', (req, res) =>
+  res.sendFile(path.join(__dirname, '../Scene3.js'))
 );
 
 router.get('/beam', (req, res) =>
   res.sendFile(path.join(__dirname, '../beam.js'))
+);
+
+router.get('/explosion', (req, res) =>
+  res.sendFile(path.join(__dirname, '../explosion.js'))
+);
+
+router.get('/game', (req, res) =>
+  res.sendFile(path.join(__dirname, '../game.js'))
 );
 
 module.exports = router;
