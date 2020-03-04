@@ -141,7 +141,6 @@ class Scene2 extends Phaser.Scene {
     if (this.player.alpha < 1) {
       return;
     }
-    this.lives -= 1;
     const explosion = new Explosion(this, player.x, player.y);
     player.disableBody(true, true);
     // this.resetPlayer();
@@ -154,6 +153,8 @@ class Scene2 extends Phaser.Scene {
   }
 
   resetPlayer() {
+    this.lives -= 1;
+    console.log(this.lives);
     if (this.lives > 0) {
       const x = config.width / 2 - 8;
       const y = config.height;
