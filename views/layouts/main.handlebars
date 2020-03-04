@@ -22,24 +22,17 @@
     <p>This is my game page.</p>
     <div id="GameCanvas"></div>
     {{{ body }}}
-    <div id="high-scores-list"></div>
 
     <script>
-        $.get(`/api/highscores`, data => {
-            console.log(data);
-            for (const score of data) {
-                appendRow(score);
-            }
-        })
 
-        function appendRow(rowObj) {
-            const newName = document.createElement('p');
-            newName.textContent = rowObj.name;
-            document.getElementById(`high-scores-list`).appendChild(newName);
-            const newScore = document.createElement('p');
-            newScore.textContent = rowObj.score;
-            document.getElementById(`high-scores-list`).appendChild(newScore);
-        }
+        $('.delete-score').on('click', function () {
+            const id = $(this).data('id');
+            $.ajax(`/api/highscores/` + id, {
+                type: 'DELETE'
+            }).then(function () {
+                location.reload();
+            });
+        });
     </script>
 </body>
 
