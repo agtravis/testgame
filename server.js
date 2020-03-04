@@ -2,7 +2,6 @@
 
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
-const routes = require('./controllers/routes.js');
 
 const db = require(`./models`);
 
