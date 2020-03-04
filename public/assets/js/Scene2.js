@@ -1,5 +1,6 @@
 'use strict';
 
+let finalScore;
 class Scene2 extends Phaser.Scene {
   constructor() {
     //Naming this scene, called in scene 1
@@ -67,27 +68,27 @@ class Scene2 extends Phaser.Scene {
 
     //creating objects to add to the second group
     //0 - 4 means 5 objects
-    const maxObjects = 4;
-    for (let i = 0; i <= maxObjects; ++i) {
-      //places the sprite
-      const powerUp = this.physics.add.sprite(16, 16, 'power-up');
-      //adds it to the group
-      this.powerUps.add(powerUp);
-      //re-establishes a random position
-      powerUp.setRandomPosition(0, 0, game.config.width, game.config.height);
-      //decides which animation from the same sprite will play
-      if (Math.random() > 0.5) {
-        powerUp.play('red');
-      } else {
-        powerUp.play('gray');
-      }
-      //sets the speed of the sprite, x, y
-      powerUp.setVelocity(Math.random() * 100, Math.random() * 100);
-      //stops the object from going over the edges of the game
-      powerUp.setCollideWorldBounds(true);
-      //controls the bounciness
-      powerUp.setBounce(1);
-    }
+    // const maxObjects = 4;
+    // for (let i = 0; i <= maxObjects; ++i) {
+    //   //places the sprite
+    //   const powerUp = this.physics.add.sprite(16, 16, 'power-up');
+    //   //adds it to the group
+    //   this.powerUps.add(powerUp);
+    //   //re-establishes a random position
+    //   powerUp.setRandomPosition(0, 0, game.config.width, game.config.height);
+    //   //decides which animation from the same sprite will play
+    //   if (Math.random() > 0.5) {
+    //     powerUp.play('red');
+    //   } else {
+    //     powerUp.play('gray');
+    //   }
+    //   //sets the speed of the sprite, x, y
+    //   powerUp.setVelocity(Math.random() * 100, Math.random() * 100);
+    //   //stops the object from going over the edges of the game
+    //   powerUp.setCollideWorldBounds(true);
+    //   //controls the bounciness
+    //   powerUp.setBounce(1);
+    // }
 
     //triggers the animation
     this.ship1.play('ship1_anim');
@@ -225,6 +226,7 @@ class Scene2 extends Phaser.Scene {
       this.startTween();
     } else {
       //trigger scene 3 (not yet coded)
+      finalScore = this.score;
       this.scene.start('endGame');
     }
   }

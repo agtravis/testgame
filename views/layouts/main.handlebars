@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery.js"></script>
     <script type="text/javascript" src="assets/js/external/phaser.min.js"></script>
     <script type="text/javascript" src="assets/js/Scene1.js"></script>
     <script type="text/javascript" src="assets/js/Scene2.js"></script>
@@ -21,6 +22,25 @@
     <p>This is my game page.</p>
     <div id="GameCanvas"></div>
     {{{ body }}}
+    <div id="high-scores-list"></div>
+
+    <script>
+        $.get(`/api/highscores`, data => {
+            console.log(data);
+            for (const score of data) {
+                appendRow(score);
+            }
+        })
+
+        function appendRow(rowObj) {
+            const newName = document.createElement('p');
+            newName.textContent = rowObj.name;
+            document.getElementById(`high-scores-list`).appendChild(newName);
+            const newScore = document.createElement('p');
+            newScore.textContent = rowObj.score;
+            document.getElementById(`high-scores-list`).appendChild(newScore);
+        }
+    </script>
 </body>
 
 </html>

@@ -3,10 +3,30 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const db = require(`../models`);
 
-router.get('/', (req, res) => {
-  res.render('index');
-});
+module.exports = app => {
+  app.get('/', (req, res) => {
+    res.render('index');
+  });
+
+  app.get(`/api/highscores`, (req, res) => {
+    db.highScore.findAll({}).then(dbScore => {
+      res.json(dbScore);
+    });
+  });
+
+  app.post(`/api/highscores`, (req, res) => {
+    db.highScore
+      .create({
+        name: req.body.name,
+        score: req.body.score
+      })
+      .then(dbScore => {
+        res.json(dbScore);
+      });
+  });
+};
 
 // router.get('/phaser', (req, res) =>
 //   res.sendFile(path.join(__dirname, '../external/phaser.min.js'))
@@ -35,5 +55,3 @@ router.get('/', (req, res) => {
 // router.get('/game', (req, res) =>
 //   res.sendFile(path.join(__dirname, '../game.js'))
 // );
-
-module.exports = router;

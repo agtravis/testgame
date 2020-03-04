@@ -1,0 +1,27 @@
+{
+  "development": {
+    "username": "root",
+    "password": "George1!",
+    "database": "high_scores_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "root",
+    "password": "George1!",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "production": {
+    "use_env_variable": "JAWSDB_URL",
+    "username": "root",
+    "password": "George1!",
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}
