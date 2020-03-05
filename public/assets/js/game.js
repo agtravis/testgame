@@ -7,8 +7,8 @@ const gameSettings = {
 
 const config = {
   //dimensions of canvas
-  width: 256,
-  height: 272,
+  width: 800,
+  height: 600,
   //containing element in the HTML will have this name exactly
   parent: 'GameCanvas',
   backgroundColor: 0x000000,

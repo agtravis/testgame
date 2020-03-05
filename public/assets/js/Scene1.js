@@ -7,7 +7,7 @@ class Scene1 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('background', 'assets/images/background.png');
+    this.load.image('background', 'assets/images/space-tile.png');
 
     //image loading commented out to leave for refernce.
     //name the image for the first argument, establish the path in the second
