@@ -180,12 +180,22 @@ class Scene2 extends Phaser.Scene {
 
     this.score = 0;
     this.scoreLabel = this.add.bitmapText(10, 5, 'pixelFont', 'SCORE ', 16);
+    const scoreFormatted = this.zeroPad(this.score, 6);
+    this.scoreLabel.text = `SCORE ${scoreFormatted}`;
+    this.livesLeft = this.add.bitmapText(
+      700,
+      5,
+      'pixelFont',
+      'LIVES ' + this.lives,
+      16
+    );
   }
 
   //when the player hits a powerup, the powerup is invisible and inactive
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
     this.lives += 1;
+    this.livesLeft.text = `LIVES ${this.lives}`;
   }
 
   //if the enemy hits the player
@@ -213,6 +223,8 @@ class Scene2 extends Phaser.Scene {
   resetPlayer() {
     //when this function called, lose a life
     this.lives -= 1;
+    this.livesLeft.text = `LIVES ${this.lives}`;
+
     console.log(this.lives);
     //if the player has lives left
     if (this.lives > 0) {
@@ -272,9 +284,12 @@ class Scene2 extends Phaser.Scene {
   }
 
   //a function that moves the enemies on auto
-  moveShip(ship, speed) {
+  moveShip(ship, speed, pointsDeduction) {
     ship.y += speed;
     if (ship.y > config.height) {
+      this.score -= pointsDeduction;
+      const scoreFormatted = this.zeroPad(this.score, 6);
+      this.scoreLabel.text = `SCORE ${scoreFormatted}`;
       this.resetShipPos(ship);
     }
   }
@@ -295,9 +310,9 @@ class Scene2 extends Phaser.Scene {
   //This function is called over and over
   update() {
     //controls enemy movement
-    this.moveShip(this.ship1, 1);
-    this.moveShip(this.ship2, 2);
-    this.moveShip(this.ship3, 3);
+    this.moveShip(this.ship1, 1, 15);
+    this.moveShip(this.ship2, 2, 10);
+    this.moveShip(this.ship3, 3, 5);
 
     //moves background image
     this.background.tilePositionY -= 0.5;
@@ -338,10 +353,20 @@ class Scene2 extends Phaser.Scene {
   }
 
   zeroPad(number, size) {
-    let stringNumber = String(number);
-    while (stringNumber.length < (size || 2)) {
-      stringNumber = '0' + stringNumber;
+    if (number >= 0) {
+      let stringNumber = String(number);
+      while (stringNumber.length < (size || 2)) {
+        stringNumber = '0' + stringNumber;
+      }
+      return stringNumber;
+    } else {
+      let stringNumber = String(number);
+      const negative = stringNumber.substring(0, 1);
+      let digits = stringNumber.substring(1);
+      while (digits.length < (size || 2)) {
+        digits = '0' + digits;
+      }
+      return negative + digits;
     }
-    return stringNumber;
   }
 }
