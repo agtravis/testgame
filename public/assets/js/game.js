@@ -1,5 +1,15 @@
 'use strict';
 
+let currentHighScore;
+let highScorer;
+
+$.get(`/api/highscores/top`, data => {
+  console.log(data);
+  currentHighScore = data[0].high_score;
+  highScorer = data[0].name;
+  console.log(currentHighScore, highScorer);
+});
+
 //an object that 'global' variables can be stored in. Not really global, just accessible anywhere
 const gameSettings = {
   playerSpeed: 200

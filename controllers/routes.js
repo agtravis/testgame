@@ -2,7 +2,21 @@
 
 const db = require(`../models`);
 
-module.exports = app => {
+module.exports = (app, sequelize) => {
+  app.get('/api/highscores/top', (req, res) => {
+    db.highScore
+      .findAll({
+        attributes: [
+          [sequelize.fn('max', sequelize.col('score')), 'high_score'],
+          sequelize.col('name')
+        ],
+        raw: true
+      })
+      .then(dbScore => {
+        res.json(dbScore);
+      });
+  });
+
   app.get('/', (req, res) => {
     db.highScore.findAll({}).then(dbScore => {
       const highScoresObj = {

@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
-require(`./controllers/routes.js`)(app);
+require(`./controllers/routes.js`)(app, db.sequelize);
 
 db.sequelize.sync().then(() => {
   app.listen(PORT, function() {

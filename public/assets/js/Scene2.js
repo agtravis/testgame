@@ -189,6 +189,14 @@ class Scene2 extends Phaser.Scene {
       'LIVES ' + this.lives,
       16
     );
+    this.highScoreText = this.add.bitmapText(
+      320,
+      5,
+      'pixelFont',
+      `HIGH SCORE ${this.zeroPad(
+        currentHighScore
+      )} - ${highScorer.toUpperCase()}`
+    );
   }
 
   //when the player hits a powerup, the powerup is invisible and inactive
