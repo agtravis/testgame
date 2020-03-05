@@ -193,9 +193,7 @@ class Scene2 extends Phaser.Scene {
       320,
       5,
       'pixelFont',
-      `HIGH SCORE ${this.zeroPad(
-        currentHighScore
-      )} - ${highScorer.toUpperCase()}`
+      `HIGH SCORE ${this.zeroPad(currentHighScore)} - ${highScorer}`
     );
   }
 
